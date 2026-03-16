@@ -1,5 +1,14 @@
-import {create} from 'zustand'
+import { create } from 'zustand'
 
 export const useLaunchers = create((set) => ({
-    launchers: []
+    launchers: [
+        {
+            id: 10,
+            name: 'asd'
+        },
+        {
+            id: 11,
+            name: 'asd'
+        }
+    ]
 }))

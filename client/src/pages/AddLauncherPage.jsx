@@ -9,6 +9,8 @@ function AddLauncherPage() {
 
     function addNewLauncher(){
         ///שליחת API להוספה
+        console.log(name, rocketType, latitude, longitude, city);
+        
     }
     return (
         <div>
@@ -19,15 +21,15 @@ function AddLauncherPage() {
             <input type="text" onChange={(e)=> setRocketType(e.target.value)}/>
 
             <label htmlFor="">Latitube</label>
-            <input type="text" onChange={(e)=> setLatitude(e.target.value)} />
+            <input type="number" onChange={(e)=> setLatitude(e.target.value)} />
 
             <label htmlFor="">Longitude</label>
-            <input type="text" onChange={(e)=> setLongitude(e.target.value)}/>
+            <input type="number" onChange={(e)=> setLongitude(e.target.value)}/>
 
             <label htmlFor="">City</label>
             <input type="text" onChange={(e)=> setCity(e.target.value)}/>
 
-            <button type='submit' onClick={() => addNewLauncher}
+            <button type='submit' onClick={() => addNewLauncher()}
             >Add</button>
         </div>
     )
