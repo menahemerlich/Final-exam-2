@@ -4,9 +4,10 @@ import { useState } from 'react'
 
 function Provider({ children }) {
     const [data, setData] = useState([])
+    const [update, setUpdate] = useState(null)
 
     return (
-        <Context.Provider value={{ data, setData }}>
+        <Context.Provider value={{ data, setData, update, setUpdate}}>
             {children}
         </Context.Provider>
     )
