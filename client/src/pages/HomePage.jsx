@@ -4,7 +4,7 @@ import Context from '../context/Context'
 
 function HomePage() {
     const navigate = useNavigate()
-    const { data, setData } = useContext(Context)
+    const { data, setData, setUpdate } = useContext(Context)
     const [search, setSearch] = useState("")
     const [searchType, setSearchType] = useState("")
 
@@ -86,7 +86,9 @@ function HomePage() {
                 </select>
             </div>
             <div>
-                <button onClick={() => navigate('new-launcher')}
+                <button onClick={() => {
+                    navigate('new-launcher')
+                }}
                 >Add new launcher</button>
 
             </div>
@@ -110,6 +112,13 @@ function HomePage() {
                                 >Details</button></td>
                                 <td><button onClick={() => deleteById(item._id)}
                                 >Delete</button></td>
+                                <td>
+                                    <button onClick={() => {
+                                        setUpdate(item)
+                                        navigate('update-launcher')
+                                    }}
+                                    >Update launcher</button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
