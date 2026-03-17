@@ -52,7 +52,7 @@ function LoginPage() {
                 <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
 
                 <label htmlFor="">Password</label>
-                <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
                 <button onClick={() => login()}
                 >Login</button>
