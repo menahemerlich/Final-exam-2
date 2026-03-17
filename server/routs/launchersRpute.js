@@ -2,6 +2,7 @@ import express from 'express'
 import { db } from '../db/connectDB.js'
 import { ObjectId } from 'mongodb'
 import { launcherTypes } from '../utils/typeChecking.js'
+import { airMiddleware, intelligenceMiddleware } from '../middleware.js'
 
 export const launchersRoute = express.Router()
 
@@ -23,23 +24,23 @@ launchersRoute.get('/:id', async (req, res) => {
     res.status(200).json(launcher)
 })
 
-launchersRoute.post('/', async (req, res) => {
+launchersRoute.post('/', intelligenceMiddleware, async (req, res) => {
     if (req.body && launcherTypes(req.body)) {
-            const { name, rocketType, latitude, longitude, city } = req.body
-            const newLauncher = await db.collection('launchers').insertOne({
-                name,
-                rocketType,
-                latitude,
-                longitude,
-                city
-            })
-            return res.status(200).json({ id: newLauncher.insertedId })
-        
+        const { name, rocketType, latitude, longitude, city } = req.body
+        const newLauncher = await db.collection('launchers').insertOne({
+            name,
+            rocketType,
+            latitude,
+            longitude,
+            city
+        })
+        return res.status(200).json({ id: newLauncher.insertedId })
+
     }
     return res.status(400).json({ message: "invalid files" })
 })
 
-launchersRoute.delete('/:id', async (req, res) => {
+launchersRoute.delete('/:id', intelligenceMiddleware, async (req, res) => {
     const { id } = req.params
     if (id.length != 24) {
         return res.status(400).json({ message: 'invalid id' })
@@ -52,14 +53,13 @@ launchersRoute.delete('/:id', async (req, res) => {
     return res.status(200).json({ deleted: deleted })
 })
 
-launchersRoute.put('/:id', async (req, res) => {
+launchersRoute.put('/:id', intelligenceMiddleware, async (req, res) => {
     const { id } = req.params
     if (id.length != 24) {
         return res.status(400).json({ message: 'invalid id' })
-
     }
     if (req.body) {
-        if (typeChecking(req.body)) {
+        if (launcherTypes(req.body)) {
             const { name, rocketType, latitude, longitude, city } = req.body
             const launcher = await db.collection('launchers').findOne({ _id: new ObjectId(id) })
             if (!launcher) {
@@ -81,4 +81,24 @@ launchersRoute.put('/:id', async (req, res) => {
         }
     }
     return res.status(400).json({ message: "invalid files" })
+})
+
+launchersRoute.put('/destroyed/:id', airMiddleware, async (req, res) => {
+    const { id } = req.params
+    if (id.length != 24) {
+        return res.status(400).json({ message: 'invalid id' })
+    }
+    const launcher = await db.collection('launchers').findOne({ _id: new ObjectId(id) })
+    if (!launcher) {
+        return res.status(404).json({ message: 'launcher not found' })
+    }
+    await db.collection('launchers').updateOne(
+        { _id: new ObjectId(id) },
+        {
+            $set: {
+                destroyed: true
+            }
+        }
+    )
+    return res.status(200).json({ message: `launcher '${id}' destroyed.` })
 })

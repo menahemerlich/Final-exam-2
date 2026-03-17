@@ -31,6 +31,7 @@ function LoginPage() {
             const result = await response.json();
             if (response.ok) {
                 localStorage.setItem("token", result.token)
+                localStorage.setItem("user", JSON.stringify(result.user))
                 setToken(result.token)
                 setUser(result.user)
                 navigate("/home")
@@ -43,9 +44,9 @@ function LoginPage() {
             console.error(error);
         };
     }
-    
+
     return (
-        <div>
+        <div className='page'>
             <div className='newform'>
                 <label htmlFor="">UserName</label>
                 <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />

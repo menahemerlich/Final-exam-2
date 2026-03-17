@@ -7,6 +7,9 @@ import Provider from './context/Provider';
 import UpdateLauncher from './components/UpdateLauncher';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
+import LoginProtected from './protected/LoginProtected';
+import AdminProtected from './protected/AdminProtected';
+import IntelligenceProtected from './protected/IntelligenceProtected';
 
 
 function App() {
@@ -15,12 +18,18 @@ function App() {
     <Provider>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<LoginPage/>}/>
-          <Route path='/register' element={<RegisterPage/>}/>
-          <Route path='/home' element={<HomePage />} />
-          <Route path='/new-launcher' element={<AddLauncherPage />} />
-          <Route path='/update-launcher' element={<UpdateLauncher/>}/>
-          <Route path='/details/:launcherId' element={<LauncherDetailsPage />} />
+          <Route path='/' element={<LoginPage />} />
+          <Route element={<LoginProtected />}>
+            <Route element={<AdminProtected />}>
+              <Route path='/register' element={<RegisterPage />} />
+            </Route>
+            <Route path='/home' element={<HomePage />} />
+            <Route element={<IntelligenceProtected />}>
+              <Route path='new-launcher' element={<AddLauncherPage />} />
+              <Route path='/update-launcher' element={<UpdateLauncher />} />
+            </Route>
+            <Route path='/details/:launcherId' element={<LauncherDetailsPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </Provider>

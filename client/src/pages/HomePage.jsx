@@ -1,18 +1,24 @@
 import { useEffect, useState, useContext } from 'react'
 import { useNavigate } from 'react-router'
 import Context from '../context/Context'
+import Navbar from '../components/Navbar'
+import Destroyed from '../components/Destroyed'
 
 function HomePage() {
     const navigate = useNavigate()
-    const { data, setData, setUpdate } = useContext(Context)
+    const { data, setData, setUpdate, user, token } = useContext(Context)
     const [search, setSearch] = useState("")
     const [searchType, setSearchType] = useState("")
-
+    const [destroyed, setDestroyed] = useState("")
     const [allData, setAllData] = useState([])
 
     async function fetchData() {
         try {
-            const response = await fetch("http://localhost:3030/api/launchers");
+            const response = await fetch("http://localhost:3030/api/launchers", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             const result = await response.json();
             setData(result)
             setAllData(result)
@@ -47,9 +53,28 @@ function HomePage() {
 
         }
     }, [searchType])
+    useEffect(() => {
+        if (destroyed === "") {
+            setData(allData)
+        } else {
+            if (destroyed == "true") {
+                setData(
+                    allData.filter(item =>
+                        item.destroyed)
+                )
+            } else {
+                setData(
+                    allData.filter(item =>
+                        item.destroyed === undefined)
+                )
+            }
+
+        }
+    }, [destroyed])
     async function deleteById(id) {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
 
         const requestOptions = {
             method: "DELETE",
@@ -59,14 +84,15 @@ function HomePage() {
         try {
             const response = await fetch(`http://localhost:3030/api/launchers/${id}`, requestOptions);
             const result = await response.json();
-            console.log(result)
             fetchData()
         } catch (error) {
             console.error(error);
         };
     }
+
     return (
         <div className='page'>
+            <Navbar />
             <div className="search">
                 <p>Search by...</p>
                 <label htmlFor="">City</label>
@@ -84,10 +110,17 @@ function HomePage() {
                     <option value="Radwan">Radwan</option>
                     <option value="Kheibar">Kheibar</option>
                 </select>
+
+                <label htmlFor="">Destroyed</label>
+                <select name="destroyed" id="destroyed" onChange={(e) => setDestroyed(e.target.value)}>
+                    <option value="">All</option>
+                    <option value={true}>Destroyed</option>
+                    <option value={false}>No Destroyed</option>
+                </select>
             </div>
             <div>
                 <button onClick={() => {
-                    navigate('new-launcher')
+                    navigate('/new-launcher')
                 }}
                 >Add new launcher</button>
 
@@ -108,14 +141,25 @@ function HomePage() {
                                 <td>{item._id}</td>
                                 <td>{item.name}</td>
                                 <td>{item.city}</td>
+
+                                <td>
+                                    <Destroyed item={item} />
+                                </td>
+
                                 <td><button onClick={() => navigate(`/details/${item._id}`)}
                                 >Details</button></td>
-                                <td><button onClick={() => deleteById(item._id)}
+                                <td><button onClick={() => {
+                                    if (user.userType != "intelligence" && user.userType != "admin") {
+                                        alert("You do not have permissions.")
+                                    } else {
+                                        deleteById(item._id)
+                                    }
+                                }}
                                 >Delete</button></td>
                                 <td>
                                     <button onClick={() => {
                                         setUpdate(item)
-                                        navigate('update-launcher')
+                                        navigate('/update-launcher')
                                     }}
                                     >Update launcher</button>
                                 </td>

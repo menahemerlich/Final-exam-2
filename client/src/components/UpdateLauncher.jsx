@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router'
 import Context from '../context/Context'
 
 function UpdateLauncher() {
-    const { update } = useContext(Context)
-
     const navigate = useNavigate()
+    const { update, token } = useContext(Context)
     const [name, setName] = useState(update.name)
     const [rocketType, setRocketType] = useState(update.rocketType)
     const [latitude, setLatitude] = useState(update.latitude)
@@ -16,6 +15,7 @@ function UpdateLauncher() {
     async function updateLauncher() {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
 
         const raw = JSON.stringify({
             "name": name,
@@ -34,7 +34,7 @@ function UpdateLauncher() {
 
         try {
             const response = await fetch(`http://localhost:3030/api/launchers/${update._id}`, requestOptions);
-            const result = await response.json();            
+            const result = await response.json();
             if (response.ok) {
                 alert(result.message)
                 navigate('/')
@@ -52,7 +52,7 @@ function UpdateLauncher() {
     }
     return (
         <div className='page'>
-            <button onClick={() => navigate("/")}
+            <button onClick={() => navigate("/home")}
             >Home</button>
             <div className='newform'>
                 <label htmlFor="">Name</label>

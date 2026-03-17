@@ -10,9 +10,7 @@ export async function connectDB() {
     try {
         await client.connect()
         console.log('Connected to MongoDB');
-        db = client.db('launchersDB')
-        // console.log(db.databaseName);
-        
+        db = client.db('launchersDB')        
     } catch (error) {
         console.error('Connection error:', error);
     }
