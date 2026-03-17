@@ -1,7 +1,7 @@
 import express from 'express'
 import { db } from '../db/connectDB.js'
 import { ObjectId } from 'mongodb'
-import { typeChecking } from '../utils/typeChecking.js'
+import { launcherTypes } from '../utils/typeChecking.js'
 
 export const launchersRoute = express.Router()
 
@@ -24,7 +24,7 @@ launchersRoute.get('/:id', async (req, res) => {
 })
 
 launchersRoute.post('/', async (req, res) => {
-    if (req.body && typeChecking(req.body)) {
+    if (req.body && launcherTypes(req.body)) {
             const { name, rocketType, latitude, longitude, city } = req.body
             const newLauncher = await db.collection('launchers').insertOne({
                 name,
