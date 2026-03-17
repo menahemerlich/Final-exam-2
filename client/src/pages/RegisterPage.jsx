@@ -5,13 +5,15 @@ import Navbar from '../components/Navbar'
 
 
 function RegisterPage() {
-    
-    
+
+
     return (
         <div className='page'>
-        <Navbar/>
-        <UsersTable/>
-        <NewUser/>
+            <Navbar />
+            <div className='users-grid'>
+                <UsersTable />
+                <NewUser />
+            </div>
         </div>
     )
 }
