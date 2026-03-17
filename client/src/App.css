@@ -65,3 +65,12 @@ td {
 .search>* {
     margin: 5px;
 }
+.clicked{
+    background-color: green;
+    color: black;
+    cursor: not-allowed
+}
+.clicked:hover{
+    background-color: greenyellow;
+    color: black;
+}

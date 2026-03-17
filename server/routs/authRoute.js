@@ -3,12 +3,13 @@ import { registerRoute } from './registerRoute.js'
 import jwt from "jsonwebtoken"
 import dotenv from 'dotenv'
 import { db } from '../db/connectDB.js'
+import { adminMiddleware } from '../middleware.js'
 
 dotenv.config()
 
 export const authRoute = express.Router()
 
-authRoute.use('/register', registerRoute)
+authRoute.use('/register',adminMiddleware, registerRoute)
 
 authRoute.post('/login', async (req, res) => {
     if (req.body.userName && req.body.password && typeof req.body.userName === 'string' && typeof req.body.password === 'string') {

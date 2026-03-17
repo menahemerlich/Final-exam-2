@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import { useContext } from 'react'
 import { useNavigate } from 'react-router'
+import Context from '../context/Context'
 
 function AddLauncher() {
     const navigate = useNavigate()
@@ -8,10 +10,12 @@ function AddLauncher() {
     const [latitude, setLatitude] = useState(null)
     const [longitude, setLongitude] = useState(null)
     const [city, setCity] = useState("")
+    const { token } = useContext(Context)
 
     async function addNewLauncher() {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
 
         const raw = JSON.stringify({
             "name": name,

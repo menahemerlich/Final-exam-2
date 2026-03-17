@@ -3,6 +3,7 @@ import { useParams } from 'react-router'
 import { useContext } from 'react';
 import Context from '../context/Context';
 import { useNavigate } from 'react-router';
+import Navbar from '../components/Navbar';
 
 function LauncherDetailsPage() {
     const navigate = useNavigate()
@@ -13,6 +14,7 @@ function LauncherDetailsPage() {
 
     return (
         <div className='page'>
+            <Navbar/>
             <button onClick={() => navigate("/home")}
             >Home</button>
             <div className='card'>
