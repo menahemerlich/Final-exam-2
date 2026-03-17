@@ -43,6 +43,7 @@ function LoginPage() {
             console.error(error);
         };
     }
+    
     return (
         <div>
             <div className='newform'>
