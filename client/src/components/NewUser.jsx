@@ -54,7 +54,8 @@ function NewUser() {
         };
     }
     return (
-        <div>
+        <div className='new-user'>
+            <h2>New User</h2>
             <div className='newform'>
                 <label htmlFor="">UserName</label>
                 <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />

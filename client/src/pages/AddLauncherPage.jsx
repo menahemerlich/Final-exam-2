@@ -4,10 +4,10 @@ import Navbar from '../components/Navbar'
 function AddLauncherPage() {
 
     return (
-        <>
+        <div className='page'>
             <Navbar />
             <AddLauncher />
-        </>
+        </div>
     )
 }
 

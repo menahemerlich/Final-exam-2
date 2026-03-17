@@ -51,9 +51,7 @@ function AddLauncher() {
         };
     }
     return (
-        <div className='page'>
-            <button onClick={() => navigate("/home")}
-            >Home</button>
+        <div >
             <div className='newform'>
                 <label htmlFor="">Name</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
