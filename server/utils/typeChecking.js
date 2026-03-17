@@ -19,18 +19,15 @@ export function launcherTypes(data) {
 }
 
 export function userTypes(data) {
-    const { userName, password, email, user_type, last_login } = data
+    const { userName, password, email, userType } = data
     if (userName &&
         password &&
         email &&
-        user_type &&
-        last_login &&
+        userType &&
         typeof userName === 'string' &&
         typeof password === 'string' &&
         typeof email === 'string' &&
-        typeof user_type === 'string' &&
-        typeof last_login === 'string'
-
+        typeof userType === 'string'
     ) {
         return true
     }

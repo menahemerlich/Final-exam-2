@@ -4,7 +4,7 @@ function AddLauncherPage() {
 
     return (
         <>
-                <AddLauncher />
+            <AddLauncher />
         </>
     )
 }
