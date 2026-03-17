@@ -6,13 +6,12 @@ export const registerRoute = express.Router()
 
 registerRoute.post('/create', async (req, res) => {
     if (req.body && userTypes(req.body)) {
-            const { userName, password, email, user_type, last_login } = req.body
+            const { userName, password, email, userType } = req.body
             const newUser = await db.collection('users').insertOne({
                 userName,
                 password,
                 email,
-                user_type,
-                last_login
+                userType
             })
             return res.status(200).json({ id: newUser.insertedId })
         

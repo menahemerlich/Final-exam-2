@@ -13,7 +13,7 @@ function LauncherDetailsPage() {
 
     return (
         <div className='page'>
-            <button onClick={() => navigate("/")}
+            <button onClick={() => navigate("/home")}
             >Home</button>
             <div className='card'>
                 <h1>name: {launcher.name}</h1>

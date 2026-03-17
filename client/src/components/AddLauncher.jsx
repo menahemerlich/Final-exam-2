@@ -48,7 +48,7 @@ function AddLauncher() {
     }
     return (
         <div className='page'>
-            <button onClick={() => navigate("/")}
+            <button onClick={() => navigate("/home")}
             >Home</button>
             <div className='newform'>
                 <label htmlFor="">Name</label>
